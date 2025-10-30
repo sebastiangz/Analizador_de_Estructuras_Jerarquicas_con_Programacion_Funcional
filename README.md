@@ -11,7 +11,7 @@ Sistema funcional para procesar y analizar estructuras de datos jerárquicas (á
 
 ---
 
-## 🎯 Objetivos de Aprendizaje
+## 🎯 Objetivos
 
 - Implementar **recursión funcional** para árboles y grafos
 - Aplicar **fold/unfold (catamorphisms/anamorphisms)** en estructuras recursivas
