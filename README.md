@@ -39,7 +39,7 @@ Sistema funcional para procesar y analizar estructuras de datos jerárquicas (á
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/tu-usuario/hierarchical-analyzer.git
+git clone https://github.com/sebastiangz/Analizador_de_Estructuras_Jerarquicas_con_Programacion_Funcional
 cd hierarchical-analyzer
 
 # Crear entorno virtual
