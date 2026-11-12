@@ -1,0 +1,2 @@
+# OrganiTree usa únicamente la biblioteca estándar de Python en esta etapa.
+# No se requieren dependencias externas.

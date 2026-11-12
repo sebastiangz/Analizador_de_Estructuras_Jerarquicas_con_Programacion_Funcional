@@ -176,15 +176,6 @@ Durante la construcción se revisará que:
 - No se generen ciclos de supervisión.
 - Los supervisores externos o no encontrados queden identificados en el resultado de validación.
 
-### 5.5 Descarga y uso local
-
-1. Entrar al enlace de Kaggle.
-2. Iniciar sesión o crear una cuenta si Kaggle lo solicita.
-3. Descargar el archivo CSV del dataset.
-4. Identificar el archivo `HRDataset_v14.csv`.
-5. Colocar el archivo localmente en la carpeta `data/` del proyecto.
-6. Mantener el archivo original sin editar. La lectura, selección de columnas y construcción del árbol las realizará el programa.
-
 **Importante sobre la licencia:** la ficha de Kaggle indica una licencia **CC BY-NC-ND 4.0**. Se deberá reconocer a los autores y la fuente, limitar el uso al contexto no comercial permitido por la licencia y no publicar una versión modificada del dataset.
 
 El proyecto es académico. La propuesta de emprendimiento descrita más adelante es una idea de producto, no una autorización para comercializar el dataset ni sus derivados. Antes de cualquier uso comercial se tendría que revisar y obtener una fuente de datos con permisos adecuados.
