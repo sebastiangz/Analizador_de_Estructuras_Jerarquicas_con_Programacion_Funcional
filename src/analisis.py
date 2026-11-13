@@ -1,86 +1,203 @@
-"""Módulo de análisis y consultas para el árbol organizacional de OrganiTree.
+"""Funciones de búsqueda y análisis para OrganiTree.
 
-Contiene funciones puras para buscar empleados, filtrar registros y calcular
-estadísticas básicas sobre la estructura jerárquica, aplicando principios de
-programación funcional (inmutabilidad y funciones de orden superior).
+Este módulo recibe el árbol que construye arbol.py.
+Las funciones no modifican el árbol original.
 """
 
-from typing import Callable
-from src.arbol import ID, NOMBRE, DEPARTAMENTO, preorden, contar_empleados, fold
+from functools import reduce
+
+from src.arbol import (
+    ID,
+    NOMBRE,
+    DEPARTAMENTO,
+    ESTADO,
+    ID_RAIZ,
+    preorden,
+    calcular_altura,
+)
 
 
 def buscar_por_id(arbol: tuple, empleado_id: str) -> tuple | None:
-    """Busca y devuelve el registro de un empleado utilizando su EmpID.
+    """Busca un empleado por su identificador."""
+    empleados = filter(
+        lambda empleado: empleado[ID] == empleado_id,
+        preorden(arbol),
+    )
 
-    Recorre el árbol completo mediante preorden para localizar la coincidencia exacta.
-    Devuelve None si no se encuentra el identificador.
-    """
-    empleados = preorden(arbol)
-    for empleado in empleados:
-        if empleado[ID] == empleado_id:
-            return empleado
+    # La raíz artificial no es un empleado.
+    return next(
+        (empleado for empleado in empleados if empleado[ID] != ID_RAIZ),
+        None,
+    )
+
+
+def buscar_por_nombre(arbol: tuple, nombre: str) -> tuple[tuple, ...]:
+    """Busca empleados cuyo nombre contenga el texto indicado."""
+    nombre_buscado = nombre.strip().lower()
+
+    empleados = filter(
+        lambda empleado: (
+            empleado[ID] != ID_RAIZ
+            and nombre_buscado in empleado[NOMBRE].lower()
+        ),
+        preorden(arbol),
+    )
+
+    return tuple(empleados)
+
+
+def _buscar_nodo(arbol: tuple, empleado_id: str) -> tuple | None:
+    """Busca el nodo completo para poder consultar sus hijos."""
+    empleado, hijos = arbol
+
+    if empleado[ID] == empleado_id:
+        return arbol
+
+    for hijo in hijos:
+        resultado = _buscar_nodo(hijo, empleado_id)
+        if resultado is not None:
+            return resultado
+
     return None
 
 
-def buscar_por_nombre(arbol: tuple, nombre_buscado: str) -> tuple[tuple, ...]:
-    """Busca empleados cuyo nombre coincida parcialmente (búsqueda flexible).
+def obtener_subordinados_directos(
+    arbol: tuple, empleado_id: str
+) -> tuple[tuple, ...]:
+    """Devuelve únicamente los subordinados directos de un empleado."""
+    nodo = _buscar_nodo(arbol, empleado_id)
 
-    Utiliza filtrado funcional para encontrar todas las coincidencias.
-    """
-    empleados = preorden(arbol)
-    nombre_lower = nombre_buscado.strip().lower()
-
-    return tuple(
-        empleado
-        for empleado in empleados
-        if nombre_lower in empleado[NOMBRE].lower()
-    )
-
-
-def obtener_subordinados_directos(arbol: tuple, empleado_id: str) -> tuple[tuple, ...]:
-    """Obtiene los subordinados directos de un empleado dado su ID.
-
-    Busca el nodo correspondiente en el árbol y extrae los datos de sus hijos directos.
-    """
-    def _encontrar_nodo(nodo: tuple) -> tuple | None:
-        empleado, hijos = nodo
-        if empleado[ID] == empleado_id:
-            return nodo
-        for hijo in hijos:
-            resultado = _encontrar_nodo(hijo)
-            if resultado is not None:
-                return resultado
-        return None
-
-    nodo_encontrado = _encontrar_nodo(arbol)
-    if nodo_encontrado is None:
+    if nodo is None:
         return ()
 
-    _, hijos_directos = nodo_encontrado
-    # Extrae únicamente los datos del empleado de cada nodo hijo
-    return tuple(hijo[0] for hijo in hijos_directos)
+    _, hijos = nodo
+
+    # map obtiene los datos del empleado de cada nodo hijo.
+    return tuple(map(lambda hijo: hijo[0], hijos))
 
 
-def filtrar_por_departamento(arbol: tuple, departamento: str) -> tuple[tuple, ...]:
-    """Filtra y devuelve todos los empleados que pertenecen a un departamento específico.
+def obtener_todos_los_subordinados(
+    arbol: tuple, empleado_id: str
+) -> tuple[tuple, ...]:
+    """Devuelve los subordinados directos y los de niveles inferiores."""
+    nodo = _buscar_nodo(arbol, empleado_id)
 
-    Excluye la raíz artificial de la organización.
-    """
-    empleados = preorden(arbol)
-    depto_buscado = departamento.strip().lower()
+    if nodo is None:
+        return ()
 
-    # Filtra ignorando la raíz artificial (cuyo ID es "ORG")
+    _, hijos = nodo
+
     return tuple(
         empleado
-        for empleado in empleados
-        if empleado[ID] != "ORG" and empleado[DEPARTAMENTO].strip().lower() == depto_buscado
+        for hijo in hijos
+        for empleado in (hijo[0],) + obtener_todos_los_subordinados(hijo, hijo[0][ID])
     )
+
+
+def filtrar_por_departamento(
+    arbol: tuple, departamento: str
+) -> tuple[tuple, ...]:
+    """Devuelve los empleados que pertenecen al departamento indicado."""
+    departamento_buscado = departamento.strip().lower()
+
+    empleados = filter(
+        lambda empleado: (
+            empleado[ID] != ID_RAIZ
+            and empleado[DEPARTAMENTO].strip().lower() == departamento_buscado
+        ),
+        preorden(arbol),
+    )
+
+    return tuple(empleados)
+
+
+def filtrar_por_estado(arbol: tuple, estado: str) -> tuple[tuple, ...]:
+    """Devuelve los empleados que tienen el estado laboral indicado."""
+    estado_buscado = estado.strip().lower()
+
+    empleados = filter(
+        lambda empleado: (
+            empleado[ID] != ID_RAIZ
+            and empleado[ESTADO].strip().lower() == estado_buscado
+        ),
+        preorden(arbol),
+    )
+
+    return tuple(empleados)
+
+
+def _obtener_nodos(arbol: tuple) -> tuple[tuple, ...]:
+    """Reúne los nodos del árbol para analizar sus subordinados."""
+    _, hijos = arbol
+
+    return (arbol,) + tuple(
+        nodo
+        for hijo in hijos
+        for nodo in _obtener_nodos(hijo)
+    )
+
+
+def gerentes_con_muchos_subordinados(
+    arbol: tuple, umbral: int
+) -> tuple[tuple[tuple, int], ...]:
+    """Devuelve los gerentes que tienen más subordinados que el umbral."""
+    nodos = _obtener_nodos(arbol)
+
+    resultados = filter(
+        lambda nodo: nodo[0][ID] != ID_RAIZ and len(nodo[1]) > umbral,
+        nodos,
+    )
+
+    return tuple((nodo[0], len(nodo[1])) for nodo in resultados)
+
+
+def departamentos_con_mas_empleados(arbol: tuple) -> tuple[tuple[str, int], ...]:
+    """Cuenta los empleados de cada departamento y ordena de mayor a menor."""
+    empleados = tuple(
+        empleado
+        for empleado in preorden(arbol)
+        if empleado[ID] != ID_RAIZ
+    )
+
+    departamentos = tuple(dict.fromkeys(
+        empleado[DEPARTAMENTO]
+        for empleado in empleados
+        if empleado[DEPARTAMENTO]
+    ))
+
+    cantidades = map(
+        lambda departamento: (
+            departamento,
+            len(tuple(filter(
+                lambda empleado: empleado[DEPARTAMENTO] == departamento,
+                empleados,
+            ))),
+        ),
+        departamentos,
+    )
+
+    return tuple(sorted(cantidades, key=lambda resultado: resultado[1], reverse=True))
 
 
 def calcular_estadisticas_generales(arbol: tuple) -> dict:
-    """Calcula estadísticas generales de la organización usando funciones del árbol."""
-    total_empleados = contar_empleados(arbol)
-    
+    """Calcula el total de empleados y los niveles de la organización."""
+    empleados = tuple(
+        empleado
+        for empleado in preorden(arbol)
+        if empleado[ID] != ID_RAIZ
+    )
+
+    # reduce acumula uno por cada empleado para obtener el total.
+    total_empleados = reduce(
+        lambda total, _empleado: total + 1,
+        empleados,
+        0,
+    )
+
+    # La altura de arbol.py cuenta la raíz artificial como un nivel.
+    niveles = max(0, calcular_altura(arbol) - 1)
+
     return {
         "total_empleados": total_empleados,
+        "niveles": niveles,
     }
