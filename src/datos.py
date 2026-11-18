@@ -87,7 +87,7 @@ def validar_empleados(empleados):
 
         if not empleado["EmpID"]:
             errores += (
-                f"Registro {numero}: falta el EmpID.",
+                f"Registro {numero}: falta EmpID.",
             )
 
         if not empleado["Employee_Name"]:
