@@ -1,5 +1,5 @@
 
-"""Pruebas del módulo analisis.py usando unittest."""
+"""Pruebas del módulo analisis.py usando unittest"""
 
 import unittest
 

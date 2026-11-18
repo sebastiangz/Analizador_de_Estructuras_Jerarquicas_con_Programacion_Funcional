@@ -1,4 +1,4 @@
-"""Funciones de búsqueda y análisis para OrganiTree.
+"""Funciones de búsqueda y análisis para OrganiTree
 
 Este módulo recibe el árbol que construye arbol.py.
 Las funciones no modifican el árbol original.
