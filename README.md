@@ -251,76 +251,11 @@ No se utilizarán estas herramientas solo por cumplir una lista. Cada operación
 
 ---
 
-## 7. Organización de carpetas y archivos
-
-La estructura acordada del repositorio será la siguiente:
-
-```text
-OrganiTree/
-│
-├── README.md
-├── requirements.txt
-├── .gitignore
-│
-├── data/
-│   ├── README.md
-│   └── HRDataset_v14.csv       # archivo local; no se sube a GitHub
-│
-├── src/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── datos.py
-│   ├── arbol.py
-│   └── analisis.py
-│
-├── tests/
-│   ├── test_datos.py
-│   ├── test_arbol.py
-│   └── test_analisis.py
-│
-└── docs/
-    ├── arquitectura.md
-    └── referencias.md
-```
-
-### 7.1 Archivos principales
-
-| Archivo | Función |
-|---|---|
-| `README.md` | Documento principal del repositorio. Explica el proyecto, objetivos, dataset, estructura, integrantes, instalación, funcionamiento, pruebas, propuesta de emprendimiento y referencias. |
-| `requirements.txt` | Lista de dependencias externas necesarias para ejecutar el proyecto. En la primera versión no se requieren paquetes externos. |
-| `.gitignore` | Indica qué archivos y carpetas no deben enviarse a GitHub, como el entorno virtual, archivos temporales de Python y el CSV del dataset. |
-| `data/README.md` | Explica dónde descargar el dataset, qué nombre debe tener el CSV y cómo colocarlo localmente. También recuerda las condiciones de uso de la fuente. |
-| `docs/arquitectura.md` | Describe cómo se conectan los módulos, qué información recibe y entrega cada uno y las decisiones tomadas para representar el árbol. |
-| `docs/referencias.md` | Contiene las cinco referencias académicas seleccionadas, sus enlaces y una breve explicación de su relación con el proyecto. |
-
-### 7.2 Módulos de `src/`
-
-| Archivo | Responsabilidad |
-|---|---|
-| `__init__.py` | Identifica `src` como paquete de Python. Puede permanecer vacío. |
-| `main.py` | Punto de entrada. Presenta el menú, solicita opciones, llama a las funciones de los otros módulos y muestra los resultados. No debe concentrar la lógica de análisis. |
-| `datos.py` | Abre el CSV, lee los registros, selecciona los campos necesarios y realiza validaciones relacionadas con la entrada. Es el único módulo encargado de leer el archivo. |
-| `arbol.py` | Define la representación del árbol, normaliza nombres para relacionar gerentes y empleados, construye la estructura y contiene los recorridos recursivos y operaciones propias del árbol. |
-| `analisis.py` | Contiene las búsquedas, filtros, estadísticas y análisis sobre el árbol ya construido. Aquí se aplicarán `map`, `filter`, `reduce` y composición cuando sean útiles. |
-
-### 7.3 Archivos de `tests/`
-
-| Archivo | Qué comprobará |
-|---|---|
-| `test_datos.py` | Lectura de registros, campos faltantes, archivo inexistente e identificadores duplicados. |
-| `test_arbol.py` | Construcción de un árbol pequeño, relaciones padre-hijo, recorridos, altura e inmutabilidad. |
-| `test_analisis.py` | Búsquedas existentes y no existentes, filtros, conteos, subordinados y estadísticas. |
-
-Las pruebas utilizarán ejemplos pequeños creados por el equipo. Así podrán comprobar la lógica sin depender de que el dataset completo esté disponible en cada prueba.
-
----
-
-## 8. División del trabajo del equipo
+## 7. División del trabajo del equipo
 
 Se utilizará la **Estrategia 1: división por módulos técnicos**. Cada integrante será responsable de un módulo principal y tendrá tareas definidas en GitHub Issues.
 
-### 8.1 Integrante 1 — Arturo Cortés García
+### 7.1 Integrante 1 — Arturo Cortés García
 
 **Responsable principal:** `src/datos.py`  
 **Módulo asignado:** lectura, preparación y validación de datos.
@@ -341,7 +276,7 @@ Se utilizará la **Estrategia 1: división por módulos técnicos**. Cada integr
 
 **Límite de responsabilidad:** este módulo no construye el árbol ni realiza estadísticas organizacionales. Entrega los registros preparados al módulo `arbol.py`.
 
-### 8.2 Integrante 2 — Kevin Osvaldo Barajas Anaya
+### 7.2 Integrante 2 — Kevin Osvaldo Barajas Anaya
 
 **Responsable principal:** `src/arbol.py`  
 **Módulo asignado:** representación, construcción y recorridos del árbol.
@@ -363,7 +298,7 @@ Se utilizará la **Estrategia 1: división por módulos técnicos**. Cada integr
 
 **Límite de responsabilidad:** este módulo no lee directamente el CSV ni administra el menú. Recibe los registros de `datos.py` y entrega el árbol a `analisis.py` y `main.py`.
 
-### 8.3 Integrante 3 — Kevin Guadalupe López Vega
+### 7.3 Integrante 3 — Kevin Guadalupe López Vega
 
 **Responsable principal:** `src/analisis.py` y coordinación de `src/main.py`.  
 **Módulo asignado:** consultas, estadísticas e integración del programa.
@@ -387,7 +322,7 @@ Se utilizará la **Estrategia 1: división por módulos técnicos**. Cada integr
 
 **Límite de responsabilidad:** la coordinación de `main.py` no significa que este integrante deba realizar el trabajo de los otros módulos. Cada responsable debe entregar funciones probadas y documentadas para que la integración sea compartida.
 
-### 8.4 Responsabilidades compartidas
+### 7.4 Responsabilidades compartidas
 
 Aunque cada integrante tenga un módulo asignado, el proyecto es responsabilidad de los tres.
 
@@ -405,7 +340,7 @@ Los nombres de usuario de GitHub deberán agregarse en cuanto cada integrante co
 
 ---
 
-## 9. Contrato de integración entre módulos
+## 8. Contrato de integración entre módulos
 
 Para evitar que cada integrante programe con una idea diferente de cómo deben conectarse las funciones, se establecerá el siguiente flujo:
 
@@ -423,7 +358,7 @@ Para evitar que cada integrante programe con una idea diferente de cómo deben c
                     Resultados para main.py
 ```
 
-### 9.1 Qué recibe y entrega cada módulo
+### 8.1 Qué recibe y entrega cada módulo
 
 | Módulo | Recibe | Entrega |
 |---|---|---|
@@ -434,7 +369,7 @@ Para evitar que cada integrante programe con una idea diferente de cómo deben c
 
 Antes de programar por separado, los integrantes deben acordar los nombres de las funciones y el formato de los datos que se intercambiarán. Si el formato cambia, se debe actualizar la documentación y avisar al resto del equipo.
 
-### 9.2 Nombres de funciones sugeridos
+### 8.2 Nombres de funciones sugeridos
 
 Los siguientes nombres son una guía inicial; pero pueden ser ajustados siempre y cuando se conserve una interfaz común.
 
@@ -469,7 +404,7 @@ Los siguientes nombres son una guía inicial; pero pueden ser ajustados siempre 
 
 ---
 
-## 10. Propuesta de menú del sistema
+## 9. Propuesta de menú del sistema
 
 El programa se ejecutará desde la terminal. El menú puede tener las siguientes opciones:
 
@@ -497,23 +432,23 @@ El menú es una propuesta de interacción; puede reducirse si el tiempo disponib
 
 ---
 
-## 11. Análisis organizacional y componente de emprendimiento
+## 10. Análisis organizacional y componente de emprendimiento
 
-### 11.1 Nombre de la propuesta
+### 10.1 Nombre de la propuesta
 
 **OrganiTree — Analizador de estructuras organizacionales.**
 
-### 11.2 Problema identificado
+### 10.2 Problema identificado
 
 Las pequeñas y medianas empresas pueden tener información de su personal distribuida en hojas de cálculo o archivos. Cuando no existe una representación clara de las relaciones de supervisión, puede resultar difícil identificar cómo se distribuyen las responsabilidades, cuántas personas dependen de cada gerente o qué áreas concentran más colaboradores.
 
-### 11.3 Propuesta de valor
+### 10.3 Propuesta de valor
 
 OrganiTree transforma un archivo de empleados en una estructura jerárquica consultable y genera indicadores sencillos que ayudan a comprender la organización.
 
 Su valor no consiste únicamente en dibujar un organigrama. También permite explorar relaciones y señalar registros o distribuciones que podrían necesitar una revisión administrativa.
 
-### 11.4 Análisis que puede ofrecer
+### 10.4 Análisis que puede ofrecer
 
 **A. Gerentes con demasiados subordinados directos**
 
@@ -546,14 +481,14 @@ Estas advertencias servirán para revisar la calidad de los datos. No se debe mo
 
 El sistema permitirá conocer la altura del árbol, la cantidad de subordinados directos de un gerente y la distribución de los empleados a través de los niveles jerárquicos.
 
-### 11.5 Mercado objetivo
+### 10.5 Mercado objetivo
 
 - Pequeñas y medianas empresas.
 - Áreas de recursos humanos.
 - Consultorías de administración y organización empresarial.
 - Organizaciones que mantienen sus registros de personal en hojas de cálculo.
 
-### 11.6 Modelo de monetización propuesto
+### 10.6 Modelo de monetización propuesto
 
 Como idea de negocio futura, el sistema podría ofrecerse mediante:
 
@@ -564,11 +499,11 @@ Como idea de negocio futura, el sistema podría ofrecerse mediante:
 
 Estas opciones son hipótesis de monetización para el componente de emprendimiento. No forman parte de las funcionalidades que se deben programar en esta entrega.
 
-### 11.7 Diferenciador
+### 10.7 Diferenciador
 
 La propuesta integra la construcción automática de una jerarquía con operaciones de análisis sobre la estructura. En vez de limitarse a presentar una tabla de empleados, permite navegar relaciones de supervisión, localizar posibles inconsistencias y obtener indicadores organizacionales básicos a partir de un CSV.
 
-### 11.8 Limitaciones de la propuesta
+### 10.8 Limitaciones de la propuesta
 
 - El sistema no determina por sí solo si una estructura es buena o mala.
 - Tener muchos subordinados no demuestra automáticamente una sobrecarga de trabajo.
@@ -579,7 +514,7 @@ La propuesta integra la construcción automática de una jerarquía con operacio
 
 ---
 
-## 12. Decisiones y límites del proyecto
+## 11. Decisiones y límites del proyecto
 
 Para mantener una implementación sencilla, comprensible y acorde con el nivel actual del equipo, se establecen las siguientes decisiones:
 
