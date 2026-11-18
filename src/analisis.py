@@ -6,15 +6,26 @@ Las funciones no modifican el árbol original.
 
 from functools import reduce
 
-from src.arbol import (
-    ID,
-    NOMBRE,
-    DEPARTAMENTO,
-    ESTADO,
-    ID_RAIZ,
-    preorden,
-    calcular_altura,
-)
+try:
+    from src.arbol import (
+        ID,
+        NOMBRE,
+        DEPARTAMENTO,
+        ESTADO,
+        ID_RAIZ,
+        preorden,
+        calcular_altura,
+    )
+except ImportError:
+    from arbol import (
+        ID,
+        NOMBRE,
+        DEPARTAMENTO,
+        ESTADO,
+        ID_RAIZ,
+        preorden,
+        calcular_altura,
+    )
 
 
 def buscar_por_id(arbol: tuple, empleado_id: str) -> tuple | None:
