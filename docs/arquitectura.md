@@ -37,7 +37,7 @@ OrganiTree/
 ## Archivos principales
 
 | Archivo | Función |
-|---|---|
+| --- | --- |
 | `README.md` | Documento principal del repositorio. Explica el proyecto, objetivos, dataset, estructura, integrantes, instalación, funcionamiento, pruebas, propuesta de emprendimiento y referencias. |
 | `requirements.txt` | Lista de dependencias externas necesarias para ejecutar el proyecto. En la primera versión no se requieren paquetes externos. |
 | `.gitignore` | Indica qué archivos y carpetas no deben enviarse a GitHub, como el entorno virtual, archivos temporales de Python y el CSV del dataset. |
@@ -48,7 +48,7 @@ OrganiTree/
 ## Módulos de `src/`
 
 | Archivo | Responsabilidad |
-|---|---|
+| --- | --- |
 | `__init__.py` | Identifica `src` como paquete de Python. Puede permanecer vacío. |
 | `main.py` | Punto de entrada. Presenta el menú, solicita opciones, llama a las funciones de los otros módulos y muestra los resultados. No debe concentrar la lógica de análisis. |
 | `datos.py` | Abre el CSV, lee los registros, selecciona los campos necesarios y realiza validaciones relacionadas con la entrada. Es el único módulo encargado de leer el archivo. |
@@ -58,7 +58,7 @@ OrganiTree/
 ## Archivos de `tests/`
 
 | Archivo | Qué comprobará |
-|---|---|
+| --- | --- |
 | `test_datos.py` | Lectura de registros, campos faltantes, archivo inexistente e identificadores duplicados. |
 | `test_arbol.py` | Construcción de un árbol pequeño, relaciones padre-hijo, recorridos, altura e inmutabilidad. |
 | `test_analisis.py` | Búsquedas existentes y no existentes, filtros, conteos, subordinados y estadísticas. |

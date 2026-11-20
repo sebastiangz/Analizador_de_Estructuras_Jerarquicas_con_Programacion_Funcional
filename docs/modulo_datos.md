@@ -24,7 +24,7 @@ Este módulo no construye el árbol ni realiza estadísticas organizacionales.
 El archivo original contiene varias columnas, pero OrganiTree solamente necesita siete campos:
 
 | Campo del CSV | Descripción |
-|---|---|
+| --- | --- |
 | `EmpID` | Identificador del empleado. |
 | `Employee_Name` | Nombre del empleado. |
 | `ManagerName` | Nombre de su supervisor. |
@@ -176,7 +176,7 @@ El módulo `arbol.py` recibirá esta lista y se encargará de convertir los regi
 El archivo `src/datos.py` tendrá las siguientes funciones principales:
 
 | Función | Responsabilidad |
-|---|---|
+| --- | --- |
 | `leer_empleados(ruta)` | Abre el archivo CSV y obtiene los registros. |
 | `preparar_empleados(registros)` | Selecciona los siete campos necesarios. |
 | `validar_empleados(registros)` | Detecta campos indispensables faltantes e identificadores duplicados. |
