@@ -5,6 +5,7 @@ La estructura acordada del repositorio será la siguiente:
 ```text
 OrganiTree/
 │
+├── install_dataset.py
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
@@ -30,6 +31,8 @@ OrganiTree/
     ├── modulo_datos.md
     ├── modulo_analisis.md
     ├── arquitectura.md
+    ├── guion_video.md
+    ├── modulo_analisis.md
     └── referencias.md
     
 ```
